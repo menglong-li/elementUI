@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '../components/HelloWorld.vue';
+import Login from '../views/login'
 
 Vue.use(Router)
 
@@ -11,7 +12,7 @@ Vue.use(Router)
 export const urlRouters = [
 {
     path: '/',
-    component: HelloWorld
+    component: Login
 },
 {path: '*', component: HelloWorld}
 ];
