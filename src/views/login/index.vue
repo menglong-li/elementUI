@@ -43,13 +43,17 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if(valid) {
-                    alert('验证成功');
+                    this.$http.get('/Login/in').then(data => {
+                        console.log(data);
+                    }).catch(error => {
+                        console.log('请求失败');
+                    });
                 }else {
                     return false;
                 }
             });
         },
-    },
+    }
 }
 </script>
 

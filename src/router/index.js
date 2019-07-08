@@ -19,6 +19,7 @@ export const urlRouters = [
 
 
 const createRouter = () => new Router({
+    mode: 'history',  //去掉url中的#
     routes:urlRouters,
     scrollBehavior: () => ({y:0})//在切换路由页面时，期望滚动条停留的位置
 });
