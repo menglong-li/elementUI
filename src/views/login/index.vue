@@ -14,7 +14,8 @@
             </el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">{{this.$store.getters.isLogin}}</el-button>
+            <el-button @click="loginout">退出</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -42,17 +43,28 @@ export default {
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
+                let params = {
+                    params: {
+                        username: this.ruleForm.username,
+                        pass: this.ruleForm.pass
+                    }
+                }
                 if(valid) {
-                    this.$http.get('/Login/in').then(data => {
-                        console.log(data);
+                    this.$http.get('/api/Login/in',params).then(data => {
+                        if(data.status == 200) {
+                            this.$store.commit('loginIn',data['data']['token']);
+                        }
                     }).catch(error => {
-                        console.log('请求失败');
+                        console.log(error);
                     });
                 }else {
                     return false;
                 }
             });
         },
+        loginout() {
+            this.$store.commit('loginOut');
+        }
     }
 }
 </script>
