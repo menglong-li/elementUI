@@ -12,4 +12,16 @@ var LoginIn = Mock.mock({
 Mock.mock(RegExp(https + '/Login/in.*'),'get', options => {
     return LoginIn;
 });
+
+var newslist = Mock.mock({
+    'list|1-20':[{
+        'id|+1':1,
+        'title':Mock.Random.cparagraph(1,3)
+    }]
+});
+
+Mock.mock(RegExp(https + '/news/getlist'),'get',options => {
+    return newslist;
+})
+
 export default Mock;

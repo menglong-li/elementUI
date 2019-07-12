@@ -54,7 +54,7 @@
                             <el-dropdown-item>首页</el-dropdown-item>
                             <el-dropdown-item>个人中心</el-dropdown-item>
                             <el-dropdown-item>技术支持</el-dropdown-item>
-                            <el-dropdown-item divided>退出登陆</el-dropdown-item>
+                            <el-dropdown-item divided @click.native="loginout">退出登陆</el-dropdown-item>
                           </el-dropdown-menu>
                         </el-dropdown>
                       </el-col>
@@ -78,7 +78,6 @@
           },
           methods: {
             toggle() {
-              console.log(this.isCollapse)
               if(this.isCollapse){
                 this.isCollapse = false;
                 this.menuOpen = 'open';
@@ -86,6 +85,10 @@
                 this.isCollapse = true;
                 this.menuOpen = 'close';
               }
+            },
+            async loginout() {
+              await this.$store.commit('loginOut');
+              this.$router.push('/login');
             }
           },
           created:function() {
@@ -108,10 +111,11 @@
         }
         .tac{position: fixed!important;z-index: 999;}
         .el-menu{border:none!important;text-align: left;}
-        .el-menu-vertical-demo{ height: 100%;
+        .el-menu-vertical-demo:not(.el-menu--collapse){ height: 100%;
             width: 200px;
             min-height: 100vh;
           }
+        .el-menu-vertical-demo.el-menu--collapse{min-height: 100vh;}
         .el-menu .el-menu-item:hover,.el-menu li div:hover{background-color: rgb(38,52,69)!important;}
         .el-submenu .el-menu-item{background-color: #1f2d3d!important;}
         .el-submenu .el-menu-item:hover{background-color: #001528!important;}

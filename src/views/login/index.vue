@@ -53,6 +53,7 @@ export default {
                     this.$http.get('/api/Login/in',params).then(data => {
                         if(data.status == 200) {
                             this.$store.commit('loginIn',data['data']['token']);
+                            this.$router.push('/');
                         }
                     }).catch(error => {
                         console.log(error);
@@ -63,14 +64,21 @@ export default {
             });
         },
         loginout() {
-            this.$store.commit('loginOut');
+            this.$http.get('/api/news/getlist').then(data => {
+                console.log(data['data']);
+            });
         }
-    }
+    },
+    created() {
+        document.getElementsByTagName('body')[0].style.backgroundColor = 'rgb(48, 65, 86)';
+    },
+    beforeDestroy() {
+        document.getElementsByTagName('body')[0].style.backgroundColor = '';
+    },
 }
 </script>
 
 <style scope>
-body{ background-color: rgb(48, 65, 86);}
 form{width: 400px; margin: 200px auto 0 auto;}
 form button{width: 100%;}
 .el-input__inner{border-color: #DCDFE6!important;}
