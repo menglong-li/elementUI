@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '../components/HelloWorld.vue';
-import Login from '../views/login';
+import layout from '@/views/layout';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'
 import store from '@/store/store.js';
@@ -22,14 +21,25 @@ export const urlRouters = [
     },
     {
         path: '/404',
-        component: Login
+        component: () => import('@/views/login'),
     },
     {
         path: '/',
-        component: () => import('@/views/layout')
-        
+        component: layout,
+        redirect: '/home',
+        children: [
+            {path: 'home',name: 'home',component: () => import('@/components/HelloWorld'),meta: {title:'首页'}},
+        ],
     },
-    { path: '*', component: HelloWorld }
+    {
+        path: '/setting',
+        component: layout,
+        redirect: '/setting/web',
+        children: [
+            {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
+        ],
+    },
+    { path: '*', redirect: '/login' }
 ];
 
 
