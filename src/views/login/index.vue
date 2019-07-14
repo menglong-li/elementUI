@@ -5,9 +5,6 @@
                 <template slot="prepend"><i class="el-icon-user-solid"></i></template>
             </el-input>
         </el-form-item>
-        <!-- <el-form-item label="用户名" prop="username">
-            <el-input v-model=""></el-input>
-        </el-form-item> -->
         <el-form-item prop="pass">
             <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off">
                 <template slot="prepend"><i class="el-icon-lock"></i></template>

@@ -4,6 +4,7 @@
                 <el-row class="tac" :class="menuOpen">
                   <el-col :span="24">
                     <el-menu
+                      :router="true"
                       :default-active="this.$route.path"
                       class="el-menu-vertical-demo"
                       :collapse="isCollapse"

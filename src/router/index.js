@@ -37,6 +37,7 @@ export const urlRouters = [
         redirect: '/setting/web',
         children: [
             {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
+            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin'), meta:{title:'管理员'}},
         ],
     },
     { path: '*', redirect: '/login' }
