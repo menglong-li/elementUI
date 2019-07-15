@@ -13,23 +13,22 @@ Vue.use(Router)
  */
 export const urlRouters = [
     {
-        path: '/login',
-        component: () => import('@/views/login'),
-        meta: {
-            title: '登录'
-        }
-    },
-    {
-        path: '/404',
-        component: () => import('@/views/login'),
-    },
-    {
         path: '/',
         component: layout,
         redirect: '/home',
         children: [
             {path: 'home',name: 'home',component: () => import('@/components/HelloWorld'),meta: {title:'首页'}},
         ],
+    },
+    {
+        path: '/login',
+        component: () => import('@/views/login'),
+        meta: {title: '登录'}
+    },
+    {
+        path: '/404',
+        meta: {title: '404'},
+        component: () => import('@/views/login'),
     },
     {
         path: '/setting',

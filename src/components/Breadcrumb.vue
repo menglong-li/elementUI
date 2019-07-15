@@ -21,6 +21,11 @@ export default {
         getBreadcrumb() {
             this.levelList = [];
             this.$route.matched.forEach((item,index) => {
+                if(item.path === '/home') {
+                    //防止面包屑默认首页重复
+                    this.levelList = [];
+                    return false;
+                }
                 this.levelList.push({
                     name:item.meta.title,
                     path:item.path
