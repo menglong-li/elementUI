@@ -57,4 +57,44 @@ Mock.mock(RegExp(https + '/setting/put'), 'put',options => {
 })
 //#endregion
 
+//#region 管理员
+
+var adminList = Mock.mock({
+    'list|1-100':[{
+        'id|+1':1,
+        'username':/^[a-zA-Z]\w{3,10}$/,
+        'name': '@cname(1,3)',
+        'lastTime': '@datetime("yyyy-MM-dd HH:mm:ss")'
+    }]
+});
+
+Mock.mock(/\/setting\/getlist/, 'get', options => {
+    let params = getParams(options['url']);
+    let state = (params.current -1) * params.size;
+    let end = params.current * params.size;
+    let data = {
+        list: adminList['list'].slice(state,end),
+        total: adminList['list'].length
+    }
+    return data;
+})
+
+/**
+ * 拆解url 获得params
+ * @param {String} url http
+ */
+function getParams(url) {
+    let params = url.split('?')[1].split('&');
+    let temp = {};
+    if(params.length > 0) {
+        for(let val of params) {
+            temp[val.split('=')[0]] = val.split('=')[1];
+        }
+    }
+    return temp;
+}
+
+//#endregion
+
+
 export default Mock;
