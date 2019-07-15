@@ -108,14 +108,6 @@ export default {
 </script>
 
 <style lang="scss">
-body{margin: 0px;}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 .tac{position: fixed!important;z-index: 999;}
 .el-menu{border:none!important;text-align: left;}
 .el-menu-vertical-demo:not(.el-menu--collapse){ height: 100%;
