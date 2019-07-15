@@ -48,10 +48,7 @@
                     <el-row>
                       <el-col :span="1"><i class="el-icon-s-fold" @click="toggle"></i></el-col>
                       <el-col :span="11">
-                        <el-breadcrumb separator-class="el-icon-arrow-right">
-                          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                          <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-                        </el-breadcrumb>
+                        <Breadcrumb></Breadcrumb>
                       </el-col>
                       <el-col :span="12">
                         <el-dropdown>
@@ -76,6 +73,7 @@
 </template>
 
 <script>
+import Breadcrumb from '@/components/Breadcrumb';
 export default {
   data() {
     return {
@@ -104,7 +102,8 @@ export default {
       this.isCollapse = true;
       this.menuOpen = 'close';
     }
-  }
+  },
+  components:{Breadcrumb},
 }
 </script>
 

@@ -35,6 +35,7 @@ export const urlRouters = [
         path: '/setting',
         component: layout,
         redirect: '/setting/web',
+        meta: {title: '系统设置'},
         children: [
             {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
             {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin'), meta:{title:'管理员'}},
