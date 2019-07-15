@@ -18,7 +18,6 @@ const instance = axios.create({
 instance.interceptors.request.use(config => {
     //在发送请求之前做某事
     if(store.getters.isLogin) {
-        console.log(config);
         // config.headers.common['Authorization'] = 'Bearer ' + store.state.token;
         config.headers.common['Authorization'] = 'Bearer eyJpc3MiOiJKb2huI.eyJpc3MiOiJ.Kb2huIFd1IEp';
     }
