@@ -10,7 +10,7 @@ var LoginIn = Mock.mock({
 })
 
 //Mock.mock('/Login/in',...)不拦截，不知道为什么非要全url，网上也没相关说明，我也不知道上哪问T.T
-Mock.mock(RegExp(https + '/Login/in.*'),'get', options => {
+Mock.mock(RegExp(https + '/Login/in.*'),'get', () => {
     return LoginIn;
 });
 //#endregion
@@ -29,7 +29,7 @@ var newslist = Mock.mock({
 /**
  * 新闻api监听
  */
-Mock.mock(RegExp(https + '/news/getlist'),'get',options => {
+Mock.mock(RegExp(https + '/news/getlist'),'get',() => {
     return newslist;
 })
 //#endregion
@@ -44,7 +44,7 @@ var webset = {
 /**
  * 请求数据
  */
-Mock.mock(RegExp(https + '/setting/getweb'),'get', options => {
+Mock.mock(RegExp(https + '/setting/getweb'),'get', () => {
     return webset;
 })
 
@@ -79,6 +79,19 @@ Mock.mock(/\/setting\/getlist/, 'get', options => {
     return data;
 })
 
+Mock.mock(/\/setting\/admin/,'delete', options => {
+    let params = getParams(options.url);
+    let ID = params.id;
+    console.log('ID=' + ID);
+    adminList['list'] = adminList['list'].filter(item => {
+        console.log(item);
+        return item.id != ID;
+    });
+    return adminList;
+})
+
+//#endregion
+
 /**
  * 拆解url 获得params
  * @param {String} url http
@@ -93,8 +106,5 @@ function getParams(url) {
     }
     return temp;
 }
-
-//#endregion
-
 
 export default Mock;

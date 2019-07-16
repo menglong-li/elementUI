@@ -12,7 +12,7 @@
             <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
                     <el-button type="text" size="small">编辑</el-button>
-                    <el-button @click="delete(scope.row)" type="text" size="small">删除</el-button>
+                    <el-button @click="Delete(scope.$index,scope.row)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -45,6 +45,12 @@ import Pagination from '@/components/Pagination'
                 this.$http.get('/api/setting/getlist',params).then(data => {
                     this.data = data['data'];
                 });
+            },
+            Delete(index) {
+                let ID = this.data.list[index].id;
+                this.$http.delete('/api/setting/admin?id='+ID).then(data => {
+                    this.data['list'].splice(index,1);
+                })
             }
         },
         components:{Pagination}
