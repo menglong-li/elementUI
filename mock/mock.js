@@ -69,9 +69,9 @@ var adminList = Mock.mock({
 });
 
 Mock.mock(/\/setting\/getlist/, 'get', options => {
-    let params = getParams(options['url']);
-    let state = (params.current -1) * params.size;
-    let end = params.current * params.size;
+    let {username, current,size} = getParams(options['url']);
+    let state = (current -1) * size;
+    let end = current * size;
     let data = {
         list: adminList['list'].slice(state,end),
         total: adminList['list'].length
@@ -79,12 +79,27 @@ Mock.mock(/\/setting\/getlist/, 'get', options => {
     return data;
 })
 
+Mock.mock(/\/setting\/admin\/search/,'get',options => {
+    let {username, current,size} = getParams(options['url']);
+    let state = (current -1) * size;
+    let end = current * size;
+    adminList['list'] = adminList['list'].filter(item => {
+        return item.username.toString().toLowerCase() == username.toLowerCase();
+    });
+    let data = {
+        list: adminList['list'].slice(state,end),
+        total: adminList['list'].length
+    }
+    return data
+})
+
+/**
+ * 单删
+ */
 Mock.mock(/\/setting\/admin/,'delete', options => {
     let params = getParams(options.url);
     let ID = params.id;
-    console.log('ID=' + ID);
     adminList['list'] = adminList['list'].filter(item => {
-        console.log(item);
         return item.id != ID;
     });
     return adminList;

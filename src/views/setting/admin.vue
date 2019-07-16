@@ -1,5 +1,13 @@
 <template>
     <div>
+        <el-row class="search-add" :gutter="10">
+            <el-col :span="6"><el-input placeholder="账号" v-model="searchText"></el-input></el-col>
+            <el-col :span="3">
+                <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+            </el-col>
+            <el-col :span="2" :offset="13"><el-button type="success" to="{'/'}">新增</el-button></el-col>
+        </el-row>
+
         <el-table :data="data.list" border style="width: 100%">
             <el-table-column prop="id" label="ID">
             </el-table-column>
@@ -26,20 +34,35 @@ import Pagination from '@/components/Pagination'
         name: 'admin',
         data() {
             return {
-                data: []
-
+                searchText: '',//搜索框
+                data: [],
+                pageInfo: {
+                    current: 0,
+                    size:0,
+                }
             }
         },
-        // created() {
-        //     this.getList();
-        // },
         methods: {
-            getList(pageInfo) {
-                let params = {
-                    params: {
-                        current: pageInfo.current,
-                        size: pageInfo.size
+            search() {//搜索
+                if(this.searchText.trim() != '') {
+                    let {current,size} = Pagination.data();//分页初始值
+                    let search = {
+                        params: {
+                            username: this.searchText,
+                            current: current,
+                            size: size
+                        }
                     }
+                    this.$http.get('/api/setting/admin/search',search).then(data => {
+                        this.data = data['data'];
+                    })
+                }
+            },
+            getList(pageInfo) {
+                //数据绑定
+                this.pageInfo = pageInfo;
+                let params = {
+                    params: this.pageInfo
                 }
                 //触发loading.....
                 this.$http.get('/api/setting/getlist',params).then(data => {
@@ -47,6 +70,7 @@ import Pagination from '@/components/Pagination'
                 });
             },
             Delete(index) {
+                //单删
                 let ID = this.data.list[index].id;
                 this.$http.delete('/api/setting/admin?id='+ID).then(data => {
                     this.data['list'].splice(index,1);
