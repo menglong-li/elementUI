@@ -43,13 +43,6 @@
             submit() {
                 this.$refs['forms'].validate(valid => {
                     if(valid) {
-                        let params = {
-                            params: {
-                                title: this.rule.title,
-                                keys: this.rule.keys,
-                                des: this.rule.des,
-                            }
-                        }
                         this.$http.put('/api/setting/put',this.rule).then(data => {
                             console.log(data);
                         }).catch(error => {
