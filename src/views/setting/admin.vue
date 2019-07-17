@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import Pagination from '@/components/Pagination'
+import Pagination from '@/components/Pagination';
+import Loading from 'element-ui';
     export default {
         name: 'admin',
         data() {
@@ -39,6 +40,7 @@ import Pagination from '@/components/Pagination'
                 pageInfo: {
                     current: 0,
                     size:0,
+                    username:'',
                 }
             }
         },
@@ -46,21 +48,14 @@ import Pagination from '@/components/Pagination'
             search() {//搜索
                 if(this.searchText.trim() != '') {
                     let {current,size} = Pagination.data();//分页初始值
-                    let search = {
-                        params: {
-                            username: this.searchText,
-                            current: current,
-                            size: size
-                        }
-                    }
-                    this.$http.get('/api/setting/admin/search',search).then(data => {
-                        this.data = data['data'];
-                    })
+                    this.pageInfo.username = this.searchText;
+                    this.getList(this.pageInfo);
                 }
             },
             getList(pageInfo) {
                 //数据绑定
-                this.pageInfo = pageInfo;
+                this.pageInfo.current = pageInfo.current;
+                this.pageInfo.size = pageInfo.size;
                 let params = {
                     params: this.pageInfo
                 }

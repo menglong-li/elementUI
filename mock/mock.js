@@ -72,26 +72,17 @@ Mock.mock(/\/setting\/getlist/, 'get', options => {
     let {username, current,size} = getParams(options['url']);
     let state = (current -1) * size;
     let end = current * size;
+    if(username.trim() != '') {
+        adminList['list'] = adminList['list'].filter(item => {
+            return item.username.toString().toLowerCase() == username.toLowerCase();
+        });
+    }
     let data = {
         list: adminList['list'].slice(state,end),
         total: adminList['list'].length
     }
     return data;
-})
-
-Mock.mock(/\/setting\/admin\/search/,'get',options => {
-    let {username, current,size} = getParams(options['url']);
-    let state = (current -1) * size;
-    let end = current * size;
-    adminList['list'] = adminList['list'].filter(item => {
-        return item.username.toString().toLowerCase() == username.toLowerCase();
-    });
-    let data = {
-        list: adminList['list'].slice(state,end),
-        total: adminList['list'].length
-    }
-    return data
-})
+});
 
 /**
  * 单删
