@@ -1,6 +1,7 @@
 import axios from 'axios';
 import router from '../router';
 import store from '@/store/store.js';
+import Loading from 'element-ui';
 
 //是否允许跨域
 axios.defaults.withCredentials = true;
@@ -20,6 +21,7 @@ instance.interceptors.request.use(config => {
     if(store.getters.isLogin) {
         // config.headers.common['Authorization'] = 'Bearer ' + store.state.token;
         config.headers.common['Authorization'] = 'Bearer eyJpc3MiOiJKb2huI.eyJpc3MiOiJ.Kb2huIFd1IEp';
+        startLoading();
     }
     return config;
 }, error => {
@@ -29,7 +31,7 @@ instance.interceptors.request.use(config => {
 
 //响应拦截器
 instance.interceptors.response.use(response => {
-    
+    endLoading();
     return response;
 },error => {
     if(error.response && error.response.status == 404) {
@@ -40,3 +42,16 @@ instance.interceptors.response.use(response => {
 });
 
 export default instance
+
+let loading;
+function startLoading() {
+    loading = Loading.Loading.service({
+        lock: true,
+        text: '加载中……',
+        background: 'rgba(0, 0, 0, 0.7)'
+    })
+}
+
+function endLoading() {
+    loading.close()
+}

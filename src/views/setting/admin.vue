@@ -30,7 +30,6 @@
 
 <script>
 import Pagination from '@/components/Pagination';
-import Loading from 'element-ui';
     export default {
         name: 'admin',
         data() {
@@ -59,7 +58,6 @@ import Loading from 'element-ui';
                 let params = {
                     params: this.pageInfo
                 }
-                //触发loading.....
                 this.$http.get('/api/setting/getlist',params).then(data => {
                     this.data = data['data'];
                 });
