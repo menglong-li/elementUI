@@ -184,6 +184,10 @@
     font-size: 12px;
   }
 
+  .tableDel-Page{display: flex; margin-top: 20px; justify-content:space-between;}
+  .tableDel-Page .delete{flex:1;}
+  .tableDel-Page .el-pagination{flex:1; margin-top: 0px; text-align: right;}
+
   @media screen and (max-width: 736px) {
     .tac.open {
       left: 0px;
