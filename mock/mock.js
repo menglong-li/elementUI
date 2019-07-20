@@ -70,7 +70,6 @@ var adminList = Mock.mock({
 });
 
 Mock.mock(/\/setting\/getlist/, 'get', options => {
-    console.log(adminList['list']);
     let {username, current,size} = getParams(options['url']);
     let state = (current -1) * size;
     let end = current * size;
@@ -89,13 +88,27 @@ Mock.mock(/\/setting\/getlist/, 'get', options => {
 /**
  * 单删
  */
-Mock.mock(/\/setting\/admin/,'delete', options => {
+Mock.mock(/\/setting\/admin\/delete/,'delete', options => {
+    console.log('又进入？');
     let params = getParams(options.url);
     let ID = params.id;
     adminList['list'] = adminList['list'].filter(item => {
         return item.id != ID;
     });
     return adminList;
+})
+
+/**
+ * 多删
+ */
+Mock.mock(/\/setting\/admin\/DeleteAll/,'delete', options => {
+    let params = getParams(options.url);
+    for(let x of params.ids.split(',')) {
+        adminList['list'] = adminList['list'].filter(item => {
+            return item.id != x;
+        });
+    }
+    return true;
 })
 
 /**
