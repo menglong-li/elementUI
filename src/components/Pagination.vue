@@ -1,10 +1,8 @@
 <template>
-    <div style="margin-top:20px;">
-        <el-pagination background @size-change="handleChange" @current-change="currentChange"
-            layout="total, sizes, prev, pager, next, jumper" :current-page="current" :page-size="size"
-            :page-sizes="[20, 50, 100, 200]" :total="total" v-show="total>0">
-        </el-pagination>
-    </div>
+    <el-pagination background @size-change="handleChange" @current-change="currentChange"
+        layout="total, sizes, prev, pager, next, jumper" :current-page="current" :page-size="size"
+        :page-sizes="[20, 50, 100, 200]" :total="total" v-show="total>0">
+    </el-pagination>
 </template>
 
 <script>
@@ -18,7 +16,7 @@ export default {
     data() {
         return {
             current: 1,
-            size:20
+            size:20,
         }
     },
     computed: {
@@ -62,3 +60,7 @@ export default {
     },
 }
 </script>
+
+<style scope>
+.el-pagination{margin-top:20px;}
+</style>
