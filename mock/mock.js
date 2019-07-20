@@ -64,11 +64,13 @@ var adminList = Mock.mock({
         'id|+1':1,
         'username':/^[a-zA-Z]\w{3,10}$/,
         'name': '@cname(1,3)',
+        'pass': /^[a-zA-Z]\w{3,16}$/,
         'lastTime': '@datetime("yyyy-MM-dd HH:mm:ss")'
     }]
 });
 
 Mock.mock(/\/setting\/getlist/, 'get', options => {
+    console.log(adminList['list']);
     let {username, current,size} = getParams(options['url']);
     let state = (current -1) * size;
     let end = current * size;
@@ -94,6 +96,41 @@ Mock.mock(/\/setting\/admin/,'delete', options => {
         return item.id != ID;
     });
     return adminList;
+})
+
+/**
+ * 新增
+ */
+Mock.mock(/\/setting\/admin\/register/,'post', options => {
+    let params = JSON.parse(options['body']);
+    adminList['list'].unshift({'id':params.id,'name':params.name,'username':params.username,'lastTime':''});
+    return true;
+})
+
+/**
+ * 根据ID获取信息
+ */
+Mock.mock(/\/setting\/admin/,'get',options => {
+    let {id} = getParams(options['url']);//let {要与传值的键名大小写一致}
+    let data = adminList['list'].filter(item => {
+        return item.id == id;
+    });
+    return data;
+})
+
+/**
+ * 修改信息
+ */
+Mock.mock(/\/setting\/admin\/put/,'put',options => {
+    let params = JSON.parse(options['body']);
+    adminList['list'].filter(item => {
+        if(item.id == params.id) {
+            item.name = params.name;
+            item.username = params.username;
+        }
+        return true;
+    })
+    return true;
 })
 
 //#endregion

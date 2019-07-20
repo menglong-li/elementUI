@@ -37,7 +37,9 @@ export const urlRouters = [
         meta: {title: '系统设置'},
         children: [
             {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
-            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin'), meta:{title:'管理员'}},
+            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin/admin'), meta:{title:'管理员'}},
+            {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员'}},
+            {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员'}},
         ],
     },
     { path: '*', redirect: '/login' }

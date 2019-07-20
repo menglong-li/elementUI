@@ -5,7 +5,11 @@
             <el-col :span="3">
                 <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
             </el-col>
-            <el-col :span="2" :offset="13"><el-button type="success" to="{'/'}">新增</el-button></el-col>
+            <el-col :span="2" :offset="13">
+                <router-link :to="'/setting/admin/add'">
+                    <el-button type="success">新增</el-button>
+                </router-link>
+            </el-col>
         </el-row>
 
         <el-table :data="data.list" border style="width: 100%">
@@ -19,7 +23,9 @@
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
-                    <el-button type="text" size="small">编辑</el-button>
+                    <router-link :to="'/setting/admin/edit/'+scope.row.id">
+                        <el-button type="text" size="small">编辑</el-button>
+                    </router-link>
                     <el-button @click="Delete(scope.$index,scope.row)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
