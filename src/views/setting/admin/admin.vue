@@ -15,7 +15,7 @@
         </el-row>
 
         <el-table :data="data.list" border stripe style="width: 100%" @selection-change="checkChange">
-            <el-table-column type="selection" width="55">
+            <el-table-column type="selection" width="40">
             </el-table-column>
             <el-table-column prop="id" label="ID">
             </el-table-column>
