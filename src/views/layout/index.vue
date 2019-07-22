@@ -19,20 +19,27 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-user"></i>
               <span>会员管理</span>
             </template>
             <el-menu-item index="3-1">会员信息</el-menu-item>
-            <el-menu-item index="3-2">管理员</el-menu-item>
           </el-submenu>
-          <el-menu-item index="4" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="/404">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-goods"></i>
+              <span>商品管理</span>
+            </template>
+            <el-menu-item index="4-1">在售商品</el-menu-item>
+            <el-menu-item index="4-2">下架商品</el-menu-item>
+            <el-menu-item index="4-3">商品类别</el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-truck"></i>
+              <span>订单管理</span>
+            </template>
+            <el-menu-item index="5-1">订单管理</el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-col>
     </el-row>
@@ -102,6 +109,7 @@
 </script>
 
 <style lang="scss">
+li{list-style: none;}
   .tac {
     position: fixed !important;
     z-index: 999;
