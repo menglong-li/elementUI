@@ -20,7 +20,7 @@ export default {
     methods: {
         getBreadcrumb() {
             this.levelList = [];
-            this.$route.matched.forEach((item,index) => {
+            this.$route.matched.forEach((item) => {
                 if(item.path === '/home') {
                     //防止面包屑默认首页重复
                     this.levelList = [];
@@ -45,7 +45,7 @@ export default {
         this.getBreadcrumb()
     },
     watch: {
-        $route(route) {
+        $route() {
             this.getBreadcrumb();
         }
     },

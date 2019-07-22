@@ -70,13 +70,13 @@
                 this.$refs['forms'].validate(valid => {
                     if(valid) {
                         if(this.rule.id == 0) {
-                            this.$http.post('/api/setting/admin/register',this.rule).then(data => {
+                            this.$http.post('/api/setting/admin/register',this.rule).then(() => {
                                 this.$router.push('/setting/admin');
                             }).catch(error => {
                                 console.log(error);
                             })
                         }else {
-                            this.$http.put('/api/setting/admin/put',this.rule).then(data => {
+                            this.$http.put('/api/setting/admin/put',this.rule).then(() => {
                                 this.$router.push('/setting/admin');
                             }).catch(error => {
                                 console.log(error);

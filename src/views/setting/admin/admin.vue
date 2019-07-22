@@ -62,7 +62,6 @@
         methods: {
             search() {//搜索
                 if (this.searchText.trim() != '') {
-                    let { current, size } = Pagination.data();//分页初始值
                     this.pageInfo.username = this.searchText;
                     this.getList(this.pageInfo);
                 }
@@ -81,7 +80,7 @@
             Delete(index) {
                 //单删
                 let ID = this.data.list[index].id;
-                this.$http.delete('/api/setting/admin/delete?id=' + ID).then(data => {
+                this.$http.delete('/api/setting/admin/delete?id=' + ID).then(() => {
                     this.data['list'].splice(index, 1);
                 })
             },
@@ -92,7 +91,7 @@
             },
             deleteAll() {
                 if(this.checkArray.length > 0) {
-                    this.$http.delete('/api/setting/admin/DeleteAll?ids=' + JSON.stringify(this.checkArray)).then(data => {
+                    this.$http.delete('/api/setting/admin/DeleteAll?ids=' + JSON.stringify(this.checkArray)).then(() => {
                         for(let x of this.checkArray)
                         {
                             this.data['list'].splice((x - 1),1);
