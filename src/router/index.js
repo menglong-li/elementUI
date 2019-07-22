@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import layout from '@/views/layout';
+import towLayout from '@/views/layout/tow';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'
 import store from '@/store/store.js';
@@ -41,6 +42,24 @@ export const urlRouters = [
             {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员'}},
             {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员'}},
         ],
+    },
+    {
+        path: '/goods',
+        component: layout,
+        redirect: '/goods/list',
+        meta: {title:'商品管理'},
+        children: [
+            {
+                path: 'type',
+                meta: {title:'商品类别'},
+                component: towLayout,
+                children:[
+                    {path:'',name:'list',component:()=>import('@/views/goods/type')},
+                    {path:'add',name:'add',component:()=>import('@/views/goods/type/edit'),meta:{title:'新增'}},
+                    {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/type/edit'),meta:{title:'编辑'}},
+                ]
+            }
+        ]
     },
     { path: '*', redirect: '/login' }
 ];

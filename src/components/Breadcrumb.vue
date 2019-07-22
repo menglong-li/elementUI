@@ -1,8 +1,8 @@
 <template>
     <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item v-for="(item,index) in levelList" :key="index">
-            <span v-if="item.redirect==='noRedirect'||index==levelList.length-1"
+        <el-breadcrumb-item v-for="(item,index) in levelList" :key="index" v-if="item.name!=undefined">
+            <span v-if="index==levelList.length-1 || nowUrl == item.path"
                 class="no-redirect">{{ item.name }}</span>
             <a v-else @click.prevent="handleLink(item)">{{ item.name }}</a>
         </el-breadcrumb-item>
@@ -15,6 +15,7 @@ export default {
     data() {
         return {
             levelList: null,
+            nowUrl: this.$route.fullPath,
         }
     },
     methods: {
@@ -28,7 +29,7 @@ export default {
                 }
                 this.levelList.push({
                     name:item.meta.title,
-                    path:item.path
+                    path:item.path,
                 });
             });
         },
@@ -42,10 +43,12 @@ export default {
         }
     },
     created() {
+        console.log(this.nowUrl);
         this.getBreadcrumb()
     },
     watch: {
         $route() {
+            this.nowUrl = this.$route.fullPath;
             this.getBreadcrumb();
         }
     },

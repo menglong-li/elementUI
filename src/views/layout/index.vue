@@ -24,14 +24,14 @@
             </template>
             <el-menu-item index="3-1">会员信息</el-menu-item>
           </el-submenu>
-          <el-submenu index="4">
+          <el-submenu index="/goods">
             <template slot="title">
               <i class="el-icon-goods"></i>
               <span>商品管理</span>
             </template>
-            <el-menu-item index="4-1">在售商品</el-menu-item>
-            <el-menu-item index="4-2">下架商品</el-menu-item>
-            <el-menu-item index="4-3">商品类别</el-menu-item>
+            <el-menu-item index="/goods/list">在售商品</el-menu-item>
+            <el-menu-item index="/goods/inventory">下架商品</el-menu-item>
+            <el-menu-item index="/goods/type">商品类别</el-menu-item>
           </el-submenu>
           <el-submenu index="5">
             <template slot="title">
