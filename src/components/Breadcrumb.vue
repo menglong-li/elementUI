@@ -28,7 +28,7 @@ export default {
                     return false;
                 }
                 this.levelList.push({
-                    name:item.meta.title,
+                    name:item.meta.bread,
                     path:item.path,
                 });
             });

@@ -35,28 +35,28 @@ export const urlRouters = [
         path: '/setting',
         component: layout,
         redirect: '/setting/web',
-        meta: {title: '系统设置'},
+        meta: {title: '系统设置',bread:'系统设置'},
         children: [
             {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
-            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin/admin'), meta:{title:'管理员'}},
-            {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员'}},
-            {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员'}},
+            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin/admin'), meta:{title:'管理员',bread:'管理员'}},
+            {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员',bread:'新增'}},
+            {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员',bread:'编辑'}},
         ],
     },
     {
         path: '/goods',
         component: layout,
         redirect: '/goods/list',
-        meta: {title:'商品管理'},
+        meta: {title:'商品管理',bread:'商品管理'},
         children: [
             {
                 path: 'type',
-                meta: {title:'商品类别'},
+                meta: {title:'商品类别',bread: '商品类别'},
                 component: towLayout,
                 children:[
-                    {path:'',name:'list',component:()=>import('@/views/goods/type')},
-                    {path:'add',name:'add',component:()=>import('@/views/goods/type/edit'),meta:{title:'新增'}},
-                    {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/type/edit'),meta:{title:'编辑'}},
+                    {path:'',name:'list',component:()=>import('@/views/goods/type'),meta:{title:'商品类别'}},
+                    {path:'add',name:'add',component:()=>import('@/views/goods/type/edit'),meta:{title:'新增',bread: '新增'}},
+                    {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/type/edit'),meta:{title:'编辑',bread: '编辑'}},
                 ]
             }
         ]
