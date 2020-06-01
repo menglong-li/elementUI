@@ -1,17 +1,17 @@
 <template>
-    <el-form :model="rule" :rules="rules" ref="forms" class="demo-ruleForm globalForm" label-width="100px">
+    <el-form :model="rule" :rules="rules" ref="forms" class="demo-ruleForm" label-width="100px">
         <el-form-item label="名称" prop="name">
             <el-input placeholder="请输入名称" v-model="rule.name" clearable></el-input>
         </el-form-item>
         <el-form-item label="账号" prop="username">
             <el-input placeholder="请输入账号" v-model="rule.username" clearable></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="pass">
-            <el-input placeholder="请输入密码" v-model="rule.pass" clearable></el-input>
+        <el-form-item label="密码" prop="password">
+            <el-input placeholder="请输入密码" v-model="rule.password" clearable></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="passvalid">
-                <el-input placeholder="确认密码" v-model="rule.passvalid" clearable></el-input>
-            </el-form-item>
+            <el-input placeholder="确认密码" v-model="rule.passvalid" clearable @input="change($event)"></el-input>
+        </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submit">提交</el-button>
             <el-button @click="reset">重置</el-button>
@@ -23,7 +23,8 @@
     export default {
         data() {
             var vaildpass = (rule, value, callback) => {
-                if(value != this.rule.pass) {
+                console.log(value);
+                if(value != this.rule.password) {
                     callback(new Error('两次密码不一致'));
                 }else {
                     callback();
@@ -35,7 +36,7 @@
                     id: 0,
                     name: '',
                     username: '',
-                    pass: '',
+                    password: '',
                     passvalid: ''
                 },
                 rules: {
@@ -46,9 +47,9 @@
                         {required: true, message: '请输入账号', trigger: 'blur'},
                         {min:3,message:'账号长度至少为3位字符',trigger:'blur'},
                     ],
-                    pass:[
+                    password:[
                         {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min:3, max:16,message:'密码长度限制为3-16位',trigger:'blur'},
+                        {min:3, max:32,message:'密码长度限制为3-32位',trigger:'blur'},
                     ],
                     passvalid:[
                         {required: true, message: '请输入密码', trigger: 'blur'},
@@ -59,9 +60,11 @@
         },
         beforeCreate() {
             if(this.$route.params.id) {
-                this.$http.get('/api/setting/admin?id='+this.$route.params.id).then(data => {
-                    this.rule = data['data'][0];
-                    this.rule.passvalid = this.rule.pass;
+                this.$http.get('/api/admin/getview/'+this.$route.params.id).then(data => {
+                    this.rule = data['data'];
+                    this.rule.passvalid = this.rule.password;
+                }).catch(err => {
+                    this.$router.go(-1);
                 });
             }
         },
@@ -70,16 +73,12 @@
                 this.$refs['forms'].validate(valid => {
                     if(valid) {
                         if(this.rule.id == 0) {
-                            this.$http.post('/api/setting/admin/register',this.rule).then(() => {
+                            this.$http.post('/api/admin/register',this.rule).then(() => {
                                 this.$router.push('/setting/admin');
-                            }).catch(error => {
-                                console.log(error);
                             })
                         }else {
-                            this.$http.put('/api/setting/admin/put',this.rule).then(() => {
+                            this.$http.put('/api/admin/edit',this.rule).then(() => {
                                 this.$router.push('/setting/admin');
-                            }).catch(error => {
-                                console.log(error);
                             })
                         }
                         
@@ -88,13 +87,11 @@
             },
             reset() {
                 this.$refs['forms'].resetFields();
+            },
+            change(e){
+                //潜入太深，需要刷新
+                this.$forceUpdate();
             }
-        },
-        created() {
-            //获取参数ID
-            // this.$http.get('/api/setting/getweb').then(data => {
-            //     this.rule = data['data'];
-            // })
-        },
+        }
     }
 </script>
