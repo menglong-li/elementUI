@@ -4,7 +4,7 @@ import store from '@/store/store.js';
 import Loading from 'element-ui';
 
 //是否允许跨域
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;//允许携带cookies信息
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const instance = axios.create({
@@ -19,8 +19,8 @@ const instance = axios.create({
 instance.interceptors.request.use(config => {
     //在发送请求之前做某事
     if(store.getters.isLogin) {
-        // config.headers.common['Authorization'] = 'Bearer ' + store.state.token;
-        config.headers.common['Authorization'] = 'Bearer eyJpc3MiOiJKb2huI.eyJpc3MiOiJ.Kb2huIFd1IEp';
+        config.headers.common['Authorization'] = store.state.token;
+        // config.headers.common['Authorization'] = 'Bearer eyJpc3MiOiJKb2huI.eyJpc3MiOiJ.Kb2huIFd1IEp';
         startLoading();
     }
     return config;
@@ -31,11 +31,19 @@ instance.interceptors.request.use(config => {
 
 //响应拦截器
 instance.interceptors.response.use(response => {
-    endLoading();
+    if(store.getters.isLogin) {
+        endLoading();
+    }
     return response;
 },error => {
     if(error.response && error.response.status == 404) {
         router.push('/404.vue');
+    }
+    if(error.response && error.response.status == 403) {
+        //token验证失败专用
+        alert(error.response.data);
+        endLoading();
+        store.commit('loginOut');
     }
 
     return Promise.reject(error);

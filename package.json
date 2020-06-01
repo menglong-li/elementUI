@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "sql": "vue-cli-service serve --mode mysql",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

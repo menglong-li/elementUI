@@ -73,8 +73,8 @@
                 let params = {
                     params: this.pageInfo
                 }
-                this.$http.get('/api/setting/getlist', params).then(data => {
-                    this.data = data['data'];
+                this.$http.get('/api/setting/getlist', params).then(results => {
+                    this.data = results['data'];
                 });
             },
             Delete(index) {

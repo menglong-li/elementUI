@@ -10,7 +10,7 @@ var LoginIn = Mock.mock({
 })
 
 //Mock.mock('/Login/in',...)不拦截，不知道为什么非要全url，网上也没相关说明，我也不知道上哪问T.T
-Mock.mock(RegExp(https + '/Login/in.*'),'get', () => {
+Mock.mock(RegExp(https + '/Login'),'get', () => {
     return LoginIn;
 });
 //#endregion

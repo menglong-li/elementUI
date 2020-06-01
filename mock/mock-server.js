@@ -10,13 +10,14 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/Login/in',(res,req) => {
-    var LoginIn = Mock.mock({
-        'id': 1,
-        'time': Mock.Random.datetime('yyyy-MM-dd HH:mm:ss')
-    });
-    console.log(res.json(LoginIn));
-})
+// app.get('/Login/in',(res,req) => {
+//     console.log(res)
+//     var LoginIn = Mock.mock({
+//         'id': 1,
+//         'time': Mock.Random.datetime('yyyy-MM-dd HH:mm:ss')
+//     });
+//     console.log(res.json(LoginIn));
+// })
 
 app.listen('8090',() => {
     console.log('监听8090端口');

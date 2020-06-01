@@ -5,7 +5,7 @@ import router from './router'
 import axios from './api'
 import store from './store/store.js'
 
-if (process.env.VUE_APP_Mock) {    // 判断是否为mock模式
+if (process.env.VUE_APP_Mock == true) {    // 判断是否为mock模式
   require('../mock/mock.js');
 }
 

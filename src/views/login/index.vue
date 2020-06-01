@@ -1,5 +1,5 @@
 <template>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" @keyup.enter.native="submitForm('ruleForm')">
         <el-form-item prop="username">
             <el-input placeholder="请输入用户名" v-model="ruleForm.username">
                 <template slot="prepend"><i class="el-icon-user-solid"></i></template>
@@ -11,8 +11,7 @@
             </el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">{{this.$store.getters.isLogin}}</el-button>
-            <el-button @click="loginout">退出</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -41,13 +40,11 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 let params = {
-                    params: {
-                        username: this.ruleForm.username,
-                        pass: this.ruleForm.pass
-                    }
+                    username: this.ruleForm.username,
+                    pass: this.ruleForm.pass
                 }
                 if(valid) {
-                    this.$http.get('/api/Login/in',params).then(data => {
+                    this.$http.post('/api/Login',params).then(data => {
                         if(data.status == 200) {
                             this.$store.commit('loginIn',data['data']['token']);
                             this.$router.push('/');
@@ -59,14 +56,9 @@ export default {
                     return false;
                 }
             });
-        },
-        loginout() {
-            this.$http.get('/api/news/getlist').then(data => {
-                console.log(data['data']);
-            });
         }
     },
-    created() {
+    mounted() {
         document.getElementsByTagName('body')[0].style.backgroundColor = 'rgb(48, 65, 86)';
     },
     beforeDestroy() {
@@ -74,6 +66,9 @@ export default {
     },
 }
 </script>
+
+<style>
+</style>
 
 <style scope>
 form{width: 400px; margin: 200px auto 0 auto;}

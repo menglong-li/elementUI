@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import router from '../router/index';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
         loginOut(state) {//退出
             localStorage.clear();
             state.token = '';
+            router.push('/');
         }
 
     },
