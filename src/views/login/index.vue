@@ -70,7 +70,7 @@ export default {
 <style>
 </style>
 
-<style scope>
+<style scoped>
 form{width: 400px; margin: 200px auto 0 auto;}
 form button{width: 100%;}
 .el-input__inner{border-color: #DCDFE6!important;}
