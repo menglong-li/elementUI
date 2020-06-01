@@ -42,11 +42,17 @@ instance.interceptors.response.use(response => {
         alert(error.response.data);
         endLoading();
     }
-    if(error.response && error.response.status == 403) {
+    if(error.response && error.response.status == 401) {
+        //未经授权的
         //token验证失败专用
         alert(error.response.data);
         endLoading();
         store.commit('loginOut');
+    }
+    if(error.response && error.response.status == 403) {
+        //服务器已经理解请求，但是拒绝执行它
+        alert(error.response.data);
+        endLoading();
     }
     if(error.response && error.response.status == 404) {
         router.push('/404.vue');
