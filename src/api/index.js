@@ -36,8 +36,11 @@ instance.interceptors.response.use(response => {
     }
     return response;
 },error => {
-    if(error.response && error.response.status == 404) {
-        router.push('/404.vue');
+    if(error.response && error.response.status == 400) {
+        //语义有误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求
+        //请求参数有误。
+        alert(error.response.data);
+        endLoading();
     }
     if(error.response && error.response.status == 403) {
         //token验证失败专用
@@ -45,6 +48,10 @@ instance.interceptors.response.use(response => {
         endLoading();
         store.commit('loginOut');
     }
+    if(error.response && error.response.status == 404) {
+        router.push('/404.vue');
+    }
+    
 
     return Promise.reject(error);
 });
