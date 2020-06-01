@@ -73,14 +73,14 @@
                 let params = {
                     params: this.pageInfo
                 }
-                this.$http.get('/api/setting/getlist', params).then(results => {
+                this.$http.get('/api/admin/getlist', params).then(results => {
                     this.data = results['data'];
                 });
             },
             Delete(index) {
                 //单删
                 let ID = this.data.list[index].id;
-                this.$http.delete('/api/setting/admin/delete?id=' + ID).then(() => {
+                this.$http.delete('/api/admin/admin/delete?id=' + ID).then(() => {
                     this.data['list'].splice(index, 1);
                 })
             },
@@ -91,7 +91,7 @@
             },
             deleteAll() {
                 if(this.checkArray.length > 0) {
-                    this.$http.delete('/api/setting/admin/DeleteAll?ids=' + JSON.stringify(this.checkArray)).then(() => {
+                    this.$http.delete('/api/admin/admin/DeleteAll?ids=' + JSON.stringify(this.checkArray)).then(() => {
                         for(let x of this.checkArray)
                         {
                             this.data['list'].splice((x - 1),1);
