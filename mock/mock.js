@@ -89,7 +89,6 @@ Mock.mock(/\/setting\/getlist/, 'get', options => {
  * 单删
  */
 Mock.mock(/\/setting\/admin\/delete/,'delete', options => {
-    console.log('又进入？');
     let params = getParams(options.url);
     let ID = params.id;
     adminList['list'] = adminList['list'].filter(item => {
