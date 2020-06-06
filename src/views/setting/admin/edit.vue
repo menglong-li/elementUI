@@ -23,7 +23,6 @@
     export default {
         data() {
             var vaildpass = (rule, value, callback) => {
-                console.log(value);
                 if(value != this.rule.password) {
                     callback(new Error('两次密码不一致'));
                 }else {
