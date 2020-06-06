@@ -56,7 +56,6 @@
                     if(valid) {
                         alert('验证成功');
                     }else {
-                        console.log(valid);
                         return false;
                     }
                 });
