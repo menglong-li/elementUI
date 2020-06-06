@@ -18,7 +18,7 @@ export const urlRouters = [
         component: layout,
         redirect: '/home',
         children: [
-            {path: 'home',name: 'home',component: () => import('@/views/index'),meta: {title:'首页'}},
+            {path: 'home',name: 'home',component: () => import('@/views/index'),meta: {title:'首页',bread:'首页'}},
         ],
     },
     {
