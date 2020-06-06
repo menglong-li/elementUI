@@ -14,7 +14,7 @@
             </el-col>
         </el-row>
 
-        <el-table :data="data.list" border stripe style="width: 100%" @selection-change="checkChange">
+        <el-table :data="data" border stripe style="width: 100%" @selection-change="checkChange">
             <el-table-column type="selection" width="40">
             </el-table-column>
             <el-table-column prop="id" label="ID">
@@ -38,7 +38,7 @@
             <div class="delete">
                 <el-button type="danger" @click="deleteAll">删除</el-button>
             </div>
-            <Pagination :total="data.total" @pageBind="getList"></Pagination>
+            <Pagination :params="pagin" @pageBind="getList"></Pagination>
         </div>
     </div>
 </template>
@@ -51,10 +51,10 @@
             return {
                 searchText: '',//搜索框
                 data: [],
-                pageInfo: {
-                    current: 0,
-                    size: 0,
-                    username: '',
+                pagin: {
+                    current: 1,
+                    size: 20,
+                    total: 0,
                 },
                 checkArray:[]//check选中
             }
@@ -62,26 +62,25 @@
         methods: {
             search() {//搜索
                 if (this.searchText.trim() != '') {
-                    this.pageInfo.username = this.searchText;
-                    this.getList(this.pageInfo);
+                    this.getList();
                 }
             },
-            getList(pageInfo) {
+            getList() {
                 //数据绑定
-                this.pageInfo.current = pageInfo.current;
-                this.pageInfo.size = pageInfo.size;
                 let params = {
-                    params: this.pageInfo
+                    current: this.pagin.current,
+                    size: this.pagin.size,
                 }
-                this.$http.get('/api/admin/getlist', params).then(results => {
-                    this.data = results['data'];
+                this.$http.get('/api/admin/getlist', {params: params}).then(results => {
+                    this.data = results['data']['list'];
+                    this.pagin.total = results['data']['total'];
                 });
             },
             Delete(index) {
                 //单删
-                let ID = this.data.list[index].id;
+                let ID = this.data[index].id;
                 this.$http.delete('/api/admin/admin/delete?id=' + ID).then(() => {
-                    this.data['list'].splice(index, 1);
+                    this.data.splice(index, 1);
                 })
             },
             checkChange(val) {
@@ -94,7 +93,7 @@
                     this.$http.delete('/api/admin/admin/DeleteAll?ids=' + JSON.stringify(this.checkArray)).then(() => {
                         for(let x of this.checkArray)
                         {
-                            this.data['list'].splice((x - 1),1);
+                            this.data.splice((x - 1),1);
                         }
                     })
                 }
