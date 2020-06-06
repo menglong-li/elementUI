@@ -44,9 +44,7 @@
                 this.$refs['forms'].validate(valid => {
                     if(valid) {
                         this.$http.put('/api/setting/put',this.rule).then(data => {
-                            console.log(data);
                         }).catch(error => {
-                            console.log(error);
                         })
                     }
                 });
