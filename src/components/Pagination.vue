@@ -1,7 +1,7 @@
 <template>
     <el-pagination background @size-change="handleChange" @current-change="currentChange"
-        layout="total, sizes, prev, pager, next, jumper" :current-page="current" :page-size="size"
-        :page-sizes="[20, 50, 100, 200]" :total="total" v-show="total>0">
+        layout="total, sizes, prev, pager, next, jumper" :current-page="params.current" :page-size="params.size"
+        :page-sizes="[20, 50, 100, 200]" :total="params.total" v-show="params.total>0">
     </el-pagination>
 </template>
 
@@ -9,14 +9,14 @@
 export default {
     name: 'Pagination',
     props: {
-        total: {required:true},//{required:true, type: Number}
-        // current: {default:1},//当前页默认值
-        // size: {default:20},//页面数默认值
+        params: {
+            total:{default:0},
+            current:1,
+            size: {default:20}
+        }
     },
     data() {
         return {
-            current: 1,
-            size:20,
         }
     },
     computed: {
@@ -40,22 +40,24 @@ export default {
         // }
     },
     created() {
-        this.$emit('pageBind', {current: this.current, size: this.size});
+        this.$emit('pageBind');
     },
     methods: {
         handleChange(size) {
+            if (this.params.current * size > this.params.total) { 
+                //防止请求两次
+                this.params.current = 1;
+            }
             //size 每页条数改变时会触发
-            this.size = size;
-
+            this.params.size = size;
             //向父组件发射页面条数改变后的状态值
-            this.$emit('pageBind', {current: this.current, size: size});
+            this.$emit('pageBind');
         },
         currentChange(current) {
             //current 改变时会触发
-            this.current = current;
-
+            this.params.current = current;
             //向父组件发射当前页改变后的状态值
-            this.$emit('pageBind', {current: current, size: this.size});
+            this.$emit('pageBind');
         }
     },
 }
