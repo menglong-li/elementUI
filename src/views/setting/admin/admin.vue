@@ -50,6 +50,7 @@
         data() {
             return {
                 searchText: '',//搜索框
+                searchOn: false, //搜索开关
                 data: [],
                 pagin: {
                     current: 1,
@@ -61,7 +62,12 @@
         },
         methods: {
             search() {//搜索
-                if (this.searchText.trim() != '') {
+                this.pagin.current = 1;
+                if (this.searchText.trim() == '') {
+                    this.searchOn = false;
+                    this.getList();
+                }else {
+                    this.searchOn = true;
                     this.getList();
                 }
             },
@@ -70,6 +76,9 @@
                 let params = {
                     current: this.pagin.current,
                     size: this.pagin.size,
+                }
+                if(this.searchOn == true) {
+                    params.username = this.searchText;
                 }
                 this.$http.get('/api/admin/getlist', {params: params}).then(results => {
                     this.data = results['data']['list'];
