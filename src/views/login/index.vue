@@ -49,7 +49,7 @@ export default {
                             this.$store.commit('loginIn',data['data']['token']);
                             this.$router.push('/');
                         }
-                    }).catch(error => {
+                    }).catch((e) => {
                     });
                 }else {
                     return false;
