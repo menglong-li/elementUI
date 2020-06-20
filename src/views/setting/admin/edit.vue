@@ -7,10 +7,10 @@
             <el-input placeholder="请输入账号" v-model="rule.username" clearable></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-            <el-input placeholder="请输入密码" v-model="rule.password" clearable></el-input>
+            <el-input type="password" placeholder="请输入密码" v-model="rule.password" clearable></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="passvalid">
-            <el-input placeholder="确认密码" v-model="rule.passvalid" clearable @input="change($event)"></el-input>
+            <el-input type="password" placeholder="确认密码" v-model="rule.passvalid" clearable @input="change($event)"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submit">提交</el-button>
@@ -78,6 +78,8 @@
                         }else {
                             this.$http.put('/api/admin/edit',this.rule).then(() => {
                                 this.$router.push('/setting/admin');
+                            }).catch((err)=> {
+
                             })
                         }
                         
