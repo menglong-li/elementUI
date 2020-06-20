@@ -17,13 +17,13 @@
         <el-table :data="data" border stripe style="width: 100%" @selection-change="checkChange">
             <el-table-column type="selection" width="40">
             </el-table-column>
-            <el-table-column prop="id" label="ID">
+            <el-table-column prop="id" label="ID" width="80">
             </el-table-column>
             <el-table-column prop="username" label="账号">
             </el-table-column>
             <el-table-column prop="name" label="名称">
             </el-table-column>
-            <el-table-column prop="lastTime" label="上次登录">
+            <el-table-column prop="lasttime" label="上次登录">
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
