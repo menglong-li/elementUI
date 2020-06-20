@@ -88,22 +88,24 @@
             Delete(index) {
                 //单删
                 let ID = this.data[index].id;
-                this.$http.delete('/api/admin/admin/delete?id=' + ID).then(() => {
+                this.$http.delete('/api/admin/delete',{params:{id:ID}}).then(() => {
                     this.data.splice(index, 1);
                 })
             },
             checkChange(val) {
-                for(let x of val) {
-                    this.checkArray.push(x.id);
-                }
+                this.checkArray = val;
             },
             deleteAll() {
+                let ids = [];
+                for(let x of this.checkArray) {
+                    ids.push(x.id);
+                }
+                if(ids.length == 0) {
+                    return false;
+                }
                 if(this.checkArray.length > 0) {
-                    this.$http.delete('/api/admin/admin/DeleteAll?ids=' + JSON.stringify(this.checkArray)).then(() => {
-                        for(let x of this.checkArray)
-                        {
-                            this.data.splice((x - 1),1);
-                        }
+                    this.$http.delete('/api/admin/delete',{params:{id:ids.toString()}}).then(() => {
+                        this.getList();
                     })
                 }
             }
