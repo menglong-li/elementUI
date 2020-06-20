@@ -6,8 +6,8 @@
         <el-form-item label="关键词" prop="keys">
             <el-input placeholder="请输入关键词" v-model="rule.keys" clearable></el-input>
         </el-form-item>
-        <el-form-item label="网站描述" prop="des">
-            <el-input type="textarea" placeholder="请输入网站描述" v-model="rule.des" clearable></el-input>
+        <el-form-item label="网站描述" prop="decs">
+            <el-input type="textarea" placeholder="请输入网站描述" v-model="rule.decs" clearable></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submit">提交</el-button>
@@ -24,7 +24,7 @@
                 rule: {
                     title: '',
                     keys: '',
-                    des: '',
+                    decs: '',
                 },
                 rules: {
                     title: [
@@ -33,7 +33,7 @@
                     keys: [
                         { required: true, message: '不能为空' }
                     ],
-                    des: [
+                    decs: [
                         { required: true, message: '不能为空' }
                     ]
                 },
@@ -43,8 +43,8 @@
             submit() {
                 this.$refs['forms'].validate(valid => {
                     if(valid) {
-                        this.$http.put('/api/setting/put',this.rule).then(data => {
-                        }).catch(error => {
+                        this.$http.put('/api/webset/put',this.rule).then(data => {
+                            alert(data['data']);
                         })
                     }
                 });
@@ -54,7 +54,7 @@
             }
         },
         created() {
-            this.$http.get('/api/setting/getweb').then(data => {
+            this.$http.get('/api/webset').then(data => {
                 this.rule = data['data'];
             })
         },
