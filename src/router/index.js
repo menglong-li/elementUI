@@ -35,12 +35,12 @@ export const urlRouters = [
         path: '/setting',
         component: layout,
         redirect: '/setting/web',
-        meta: {title: '系统设置',bread:'系统设置'},
+        meta: {title: '系统设置'},
         children: [
             {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
-            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin/admin'), meta:{title:'管理员',bread:'管理员'}},
-            {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员',bread:'新增'}},
-            {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员',bread:'编辑'}},
+            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin/admin'),meta:{title:'管理员'}},
+            {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员',bread:'管理员',bpath:'/setting/admin'}},
+            {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员',bread:'管理员',bpath:'/setting/admin'}},
         ],
     },
     {
