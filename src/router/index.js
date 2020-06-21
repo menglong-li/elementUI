@@ -39,6 +39,7 @@ export const urlRouters = [
         children: [
             {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
             {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin/admin'),meta:{title:'管理员'}},
+            {path: 'logs', name: 'logs', component: () => import('@/views/setting/logs'), meta:{title:'行为日志'}},
             {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员',bread:'管理员',bpath:'/setting/admin'}},
             {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员',bread:'管理员',bpath:'/setting/admin'}},
         ],
