@@ -10,7 +10,7 @@
             <el-input type="password" placeholder="请输入密码" v-model="rule.password" clearable></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="passvalid">
-            <el-input type="password" placeholder="确认密码" v-model="rule.passvalid" clearable @input="change($event)"></el-input>
+            <el-input type="password" placeholder="确认密码" v-model="rule.passvalid" clearable @input="change()"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submit">提交</el-button>
@@ -62,7 +62,7 @@
                 this.$http.get('/api/admin/getview/'+this.$route.params.id).then(data => {
                     this.rule = data['data'];
                     this.rule.passvalid = this.rule.password;
-                }).catch(err => {
+                }).catch(() => {
                     this.$router.go(-1);
                 });
             }
@@ -78,8 +78,8 @@
                         }else {
                             this.$http.put('/api/admin/edit',this.rule).then(() => {
                                 this.$router.push('/setting/admin');
-                            }).catch((err)=> {
-
+                            }).catch(()=> {
+                                return false;
                             })
                         }
                         
@@ -89,7 +89,7 @@
             reset() {
                 this.$refs['forms'].resetFields();
             },
-            change(e){
+            change(){
                 //潜入太深，需要刷新
                 this.$forceUpdate();
             }
