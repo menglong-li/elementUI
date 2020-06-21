@@ -49,7 +49,8 @@ export default {
                             this.$store.commit('loginIn',data['data']['token']);
                             this.$router.push('/');
                         }
-                    }).catch((e) => {
+                    }).catch(() => {
+                        return false;
                     });
                 }else {
                     return false;
