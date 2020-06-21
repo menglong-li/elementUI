@@ -16,6 +16,7 @@
             </template>
             <el-menu-item index="/setting/web">参数设置</el-menu-item>
             <el-menu-item index="/setting/admin">管理员</el-menu-item>
+            <el-menu-item index="/setting/logs">行为日志</el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
@@ -47,11 +48,11 @@
     <el-container id="Contents" :class="menuOpen">
       <el-header>
         <el-row>
-          <el-col :span="1"><i class="el-icon-s-fold" @click="toggle"></i></el-col>
-          <el-col :span="11">
+          <el-col :span="19">
+            <i class="el-icon-s-fold" @click="toggle"></i>
             <Breadcrumb></Breadcrumb>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="5">
             <el-dropdown>
               <span class="el-dropdown-link">
                 admin<i class="el-icon-arrow-down el-icon--right"></i>
