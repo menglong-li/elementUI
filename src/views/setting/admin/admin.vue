@@ -87,26 +87,30 @@
             },
             Delete(index) {
                 //单删
-                let ID = this.data[index].id;
-                this.$http.delete('/api/admin/delete',{params:{id:ID}}).then(() => {
-                    this.data.splice(index, 1);
-                })
+                if(confirm('确认要删除吗？')) {
+                    let ID = this.data[index].id;
+                    this.$http.delete('/api/admin/delete',{params:{id:ID}}).then(() => {
+                        this.data.splice(index, 1);
+                    })
+                }
             },
             checkChange(val) {
                 this.checkArray = val;
             },
             deleteAll() {
-                let ids = [];
-                for(let x of this.checkArray) {
-                    ids.push(x.id);
-                }
-                if(ids.length == 0) {
-                    return false;
-                }
-                if(this.checkArray.length > 0) {
-                    this.$http.delete('/api/admin/delete',{params:{id:ids.toString()}}).then(() => {
-                        this.getList();
-                    })
+                if(confirm('确认要删除吗？')) {
+                    let ids = [];
+                    for(let x of this.checkArray) {
+                        ids.push(x.id);
+                    }
+                    if(ids.length == 0) {
+                        return false;
+                    }
+                    if(this.checkArray.length > 0) {
+                        this.$http.delete('/api/admin/delete',{params:{id:ids.toString()}}).then(() => {
+                            this.getList();
+                        })
+                    }
                 }
             }
         },
