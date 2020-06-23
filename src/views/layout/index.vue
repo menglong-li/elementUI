@@ -23,7 +23,7 @@
               <i class="el-icon-user"></i>
               <span>会员管理</span>
             </template>
-            <el-menu-item index="3-1">会员信息</el-menu-item>
+            <el-menu-item index="/users">会员信息</el-menu-item>
           </el-submenu>
           <el-submenu index="/goods">
             <template slot="title">

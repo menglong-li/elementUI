@@ -45,6 +45,15 @@ export const urlRouters = [
         ],
     },
     {
+        path: '/users',
+        component: layout,
+        meta:{title:'会员管理'},
+        redirect: '/users/index',
+        children: [
+            {path:'index',component:()=> import('@/views/users/index'),meta:{title:'会员信息'}}
+        ]
+    },
+    {
         path: '/goods',
         component: layout,
         redirect: '/goods/list',
