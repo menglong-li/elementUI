@@ -45,13 +45,11 @@
                     current: 1,
                     size: 20,
                     total: 0,
-                },
-                checkArray:[]//check选中
+                }
             }
         },
         methods: {
             search() {//搜索
-                console.log(this.times);
                 this.pagin.current = 1;
                 if (this.searchText.trim() == '' && this.times == '') {
                     this.searchOn = false;
@@ -75,30 +73,6 @@
                     this.data = results['data']['data'];
                     this.pagin.total = results['data']['total'];
                 });
-            },
-            Delete(index) {
-                //单删
-                let ID = this.data[index].id;
-                this.$http.delete('/api/admin/delete',{params:{id:ID}}).then(() => {
-                    this.data.splice(index, 1);
-                })
-            },
-            checkChange(val) {
-                this.checkArray = val;
-            },
-            deleteAll() {
-                let ids = [];
-                for(let x of this.checkArray) {
-                    ids.push(x.id);
-                }
-                if(ids.length == 0) {
-                    return false;
-                }
-                if(this.checkArray.length > 0) {
-                    this.$http.delete('/api/admin/delete',{params:{id:ids.toString()}}).then(() => {
-                        this.getList();
-                    })
-                }
             }
         },
         components: { Pagination }
