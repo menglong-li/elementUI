@@ -38,10 +38,18 @@ export const urlRouters = [
         meta: {title: '系统设置'},
         children: [
             {path: 'web', name: 'web', component: () => import('@/views/setting/web'), meta:{title:'参数设置'}},
-            {path: 'admin', name: 'admin', component: () => import('@/views/setting/admin/admin'),meta:{title:'管理员'}},
             {path: 'logs', name: 'logs', component: () => import('@/views/setting/logs'), meta:{title:'行为日志'}},
-            {path: 'admin/add', name: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员',bread:'管理员',bpath:'/setting/admin'}},
-            {path: 'admin/edit/:id', name: 'edit', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员',bread:'管理员',bpath:'/setting/admin'}},
+            {
+                path: 'admin', 
+                component: towLayout,
+                meta:{title:'管理员'},
+                children: [
+                    {path: '', component: () => import('@/views/setting/admin/admin'), meta:{title:'管理员',no:false}},
+                    {path: 'add', component: () => import('@/views/setting/admin/edit'), meta:{title:'新增管理员'}},
+                    {path: 'edit/:id', component: () => import('@/views/setting/admin/edit'), meta:{title:'编辑管理员'}}
+                ]
+            },
+            
         ],
     },
     {
@@ -56,19 +64,30 @@ export const urlRouters = [
     {
         path: '/goods',
         component: layout,
-        redirect: '/goods/list',
-        meta: {title:'商品管理',bread:'商品管理'},
+        redirect: '/goods/sale',
+        meta: {title:'商品管理'},
         children: [
+            // {
+            //     path: 'sale',
+            //     component: towLayout,
+            //     meta:{title:'在售商品'},
+            //     children: [
+            //         {path:'',name:'sale',component:()=>import('@/views/goods/sale/list'),meta:{title:'在售商品'}},
+            //         {path:'add',name:'add',component:()=>import('@/views/goods/sale/edit'),meta:{title:'新增'}},
+            //         {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/sale/edit'),meta:{title:'编辑'}},
+            //     ]
+            // },
             {
-                path: 'type',
-                meta: {title:'商品类别',bread: '商品类别'},
+                path:'type',
                 component: towLayout,
-                children:[
-                    {path:'',name:'list',component:()=>import('@/views/goods/type'),meta:{title:'商品类别'}},
-                    {path:'add',name:'add',component:()=>import('@/views/goods/type/edit'),meta:{title:'新增',bread: '新增'}},
-                    {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/type/edit'),meta:{title:'编辑',bread: '编辑'}},
+                meta:{title:'商品类别'},
+                children: [
+                {path:'',name:'hehe',component:()=>import('@/views/goods/type'),meta:{title:'商品类别',no:false}},
+                    {path:'add',name:'add',component:()=>import('@/views/goods/type/edit'),meta:{title:'新增'}},
+                    {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/type/edit'),meta:{title:'编辑'}}
                 ]
-            }
+            },
+            
         ]
     },
     { path: '*', redirect: '/login' }

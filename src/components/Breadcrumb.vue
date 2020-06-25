@@ -27,16 +27,12 @@ export default {
                     this.levelList = [];
                     return false;
                 }
-                if(item.meta.bread) {
+                if(!item.meta.hasOwnProperty('no')) {
                     this.levelList.push({
-                        name:item.meta.bread,
-                        path:item.meta.bpath,
+                        name:item.meta.title,
+                        path:item.path,
                     });
                 }
-                this.levelList.push({
-                    name:item.meta.title,
-                    path:item.path,
-                });
             });
         },
         handleLink(item) {
