@@ -20,6 +20,7 @@ body{margin: 0px;}
 }
 .search-add{ margin-bottom: 20px;}
 .globalForm{width: 60%;}
+.inputNumber{ width: 200px!important;}
 @media screen and (max-width: 736px) {
   .globalForm{width: 100%;}
 }
