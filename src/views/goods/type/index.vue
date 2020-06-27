@@ -1,11 +1,8 @@
 <template>
         <div>
             <el-row class="search-add" :gutter="10">
-                <el-col :span="6">
-                    <el-input placeholder="账号" v-model="searchText"></el-input>
-                </el-col>
-                <el-col :span="3">
-                    <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+                <el-col :span="9">
+                    <el-input placeholder="名称" v-model="searchText"></el-input>
                 </el-col>
                 <el-col :span="2" :offset="13">
                     <router-link :to="'/goods/type/add'">
@@ -14,88 +11,103 @@
                 </el-col>
             </el-row>
     
-            <el-table :data="data.list" border stripe style="width: 100%" @selection-change="checkChange">
-                <el-table-column type="selection" width="40">
-                </el-table-column>
-                <el-table-column prop="id" label="ID">
-                </el-table-column>
-                <el-table-column prop="username" label="账号">
-                </el-table-column>
-                <el-table-column prop="name" label="名称">
-                </el-table-column>
-                <el-table-column prop="lastTime" label="上次登录">
-                </el-table-column>
-                <el-table-column fixed="right" label="操作" width="100">
-                    <template slot-scope="scope">
-                        <router-link :to="'/setting/admin/edit/'+scope.row.id">
-                            <el-button type="text" size="small">编辑</el-button>
-                        </router-link>
-                        <el-button @click="Delete(scope.$index,scope.row)" type="text" size="small">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="tableDel-Page">
-                <div class="delete">
-                    <el-button type="danger" @click="deleteAll">删除</el-button>
-                </div>
-                <Pagination :total="data.total" @pageBind="getList"></Pagination>
-            </div>
+            <el-tree
+            :data="data"
+            show-checkbox
+            node-key="id"
+            default-expand-all
+            :filter-node-method="filterNode"
+            :expand-on-click-node="false"
+            ref="tree">
+            <span class="custom-tree-node" slot-scope="{ node, data }">
+                <span>{{ node.label }}</span>
+                <span style="margin-left: 30px;">
+                    <router-link :to="'/goods/type/edit/'+data.id">
+                        <el-button type="text" size="mini">编辑</el-button>
+                    </router-link>
+                <el-button style="margin-left: 10px;"
+                    type="text"
+                    size="mini"
+                    @click="() => Delete(node, data)">
+                    删除
+                </el-button>
+                </span>
+            </span>
+            </el-tree>
         </div>
     </template>
     
     <script>
         import Pagination from '@/components/Pagination';
         export default {
+            name: 'admin',
             data() {
                 return {
                     searchText: '',//搜索框
                     data: [],
-                    pageInfo: {
-                        current: 0,
-                        size: 0,
-                        username: '',
-                    },
                     checkArray:[]//check选中
                 }
             },
+            watch: {
+                searchText(val) {
+                    this.$refs.tree.filter(val);
+                }
+            },
+            created() {
+                this.getList();
+            },
             methods: {
-                search() {//搜索
-                    if (this.searchText.trim() != '') {
-                        this.pageInfo.username = this.searchText;
-                        this.getList(this.pageInfo);
-                    }
+                filterNode(value, data) {
+                    if (!value) return true;
+                    return data.label.indexOf(value) !== -1;
                 },
-                getList(pageInfo) {
-                    //数据绑定
-                    this.pageInfo.current = pageInfo.current;
-                    this.pageInfo.size = pageInfo.size;
-                    let params = {
-                        params: this.pageInfo
+                convertToTreeData(data, pid) {
+                    const result = []
+                    let temp = []
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].pid == pid) {
+                        const obj = { 'label': data[i].title, 'id': data[i].id }
+                        temp = this.convertToTreeData(data, data[i].id)
+                        if (temp.length > 0) {
+                            obj.children = temp
+                        }
+                        result.push(obj)
+                        }
                     }
-                    this.$http.get('/api/setting/getlist', params).then(data => {
-                        this.data = data['data'];
+                    return result
+                },
+                getList() {
+                    //数据绑定
+                    this.$http.get('/api/producttype/getlist').then(results => {
+                        this.data = this.convertToTreeData(results['data'],0);
                     });
                 },
-                Delete(index) {
+                Delete(node, data) {
                     //单删
-                    let ID = this.data.list[index].id;
-                    this.$http.delete('/api/setting/admin/delete?id=' + ID).then(() => {
-                        this.data['list'].splice(index, 1);
-                    })
-                },
-                checkChange(val) {
-                    for(let x of val) {
-                        this.checkArray.push(x.id);
+                    if(confirm('确认要删除吗？')) {
+                        let ID = this.data[index].id;
+                        this.$http.delete('/api/producttype/delete',{params:{id:ID}}).then(() => {
+                            this.data.splice(index, 1);
+                        })
                     }
                 },
+                checkChange(val) {
+                    this.checkArray = val;
+                },
                 deleteAll() {
-                    if(this.checkArray.length > 0) {
-                        this.$http.delete('/api/setting/admin/DeleteAll?ids=' + JSON.stringify(this.checkArray)).then(() => {
-                            for(let x of this.checkArray)
-                            {
-                                this.data['list'].splice((x - 1),1);
-                            }
-                        })
+                    if(confirm('确认要删除吗？')) {
+                        let ids = [];
+                        for(let x of this.checkArray) {
+                            ids.push(x.id);
+                        }
+                        if(ids.length == 0) {
+                            return false;
+                        }
+                        if(this.checkArray.length > 0) {
+                            this.$http.delete('/api/producttype/delete',{params:{id:ids.toString()}}).then(() => {
+                                this.getList();
+                            })
+                        }
                     }
                 }
             },
