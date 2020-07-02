@@ -38,7 +38,6 @@
     </template>
     
     <script>
-        import Pagination from '@/components/Pagination';
         export default {
             name: 'admin',
             data() {
@@ -85,9 +84,12 @@
                 Delete(node, data) {
                     //单删
                     if(confirm('确认要删除吗？')) {
-                        let ID = this.data[index].id;
+                        let ID = data.id;
                         this.$http.delete('/api/producttype/delete',{params:{id:ID}}).then(() => {
-                            this.data.splice(index, 1);
+                            const parent = node.parent;
+                            const children = parent.data.children || parent.data;
+                            const index = children.findIndex(d => d.id === data.id);
+                            children.splice(index, 1);
                         })
                     }
                 },
@@ -110,7 +112,6 @@
                         }
                     }
                 }
-            },
-            components: { Pagination }
+            }
         }
     </script>
