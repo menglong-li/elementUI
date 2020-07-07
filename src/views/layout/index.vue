@@ -30,7 +30,7 @@
               <i class="el-icon-goods"></i>
               <span>商品管理</span>
             </template>
-            <el-menu-item index="/goods/list">在售商品</el-menu-item>
+            <el-menu-item index="/goods/sale/">发布商品</el-menu-item>
             <el-menu-item index="/goods/inventory">下架商品</el-menu-item>
             <el-menu-item index="/goods/type">商品类别</el-menu-item>
           </el-submenu>

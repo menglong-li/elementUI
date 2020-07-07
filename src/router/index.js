@@ -67,16 +67,16 @@ export const urlRouters = [
         redirect: '/goods/sale',
         meta: {title:'商品管理'},
         children: [
-            // {
-            //     path: 'sale',
-            //     component: towLayout,
-            //     meta:{title:'在售商品'},
-            //     children: [
-            //         {path:'',name:'sale',component:()=>import('@/views/goods/sale/list'),meta:{title:'在售商品'}},
-            //         {path:'add',name:'add',component:()=>import('@/views/goods/sale/edit'),meta:{title:'新增'}},
-            //         {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/sale/edit'),meta:{title:'编辑'}},
-            //     ]
-            // },
+            {
+                path: 'sale',
+                component: towLayout,
+                meta:{title:'发布商品'},
+                children: [
+                    {path:'',name:'sale',component:()=>import('@/views/goods/sale/index'),meta:{title:'发布商品',no:false}},
+                    {path:'add',name:'add',component:()=>import('@/views/goods/sale/edit'),meta:{title:'新增'}},
+                    {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/sale/edit'),meta:{title:'编辑'}},
+                ]
+            },
             {
                 path:'type',
                 component: towLayout,
