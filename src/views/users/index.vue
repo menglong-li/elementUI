@@ -69,10 +69,8 @@
                 switch(value) {
                     case 0:
                         return '正常';
-                        break;
                     case 1:
                         return '冻结';
-                        break;
                 }
             }
         },
