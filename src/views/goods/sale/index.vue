@@ -8,7 +8,7 @@
                 <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
             </el-col>
             <el-col :span="2" :offset="13">
-                <router-link :to="'add'">
+                <router-link to="/goods/sale/add">
                     <el-button type="success">新增</el-button>
                 </router-link>
             </el-col>
@@ -20,11 +20,13 @@
             </el-table-column>
             <el-table-column prop="id" label="ID" width="80">
             </el-table-column>
-            <el-table-column prop="username" label="账号">
+            <el-table-column prop="title" label="名称">
             </el-table-column>
-            <el-table-column prop="name" label="名称">
+            <el-table-column prop="isSale" label="状态">
             </el-table-column>
-            <el-table-column prop="lasttime" label="上次登录">
+            <el-table-column prop="times" label="创建时间">
+            </el-table-column>
+            <el-table-column prop="sort" label="序号" width="60">
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
@@ -81,7 +83,7 @@
                 if(this.searchOn == true) {
                     params.username = this.searchText;
                 }
-                this.$http.get('/api/admin/getlist', {params: params}).then(results => {
+                this.$http.get('/api/product/getlist', {params: params}).then(results => {
                     this.data = results['data']['list'];
                     this.pagin.total = results['data']['total'];
                 });
