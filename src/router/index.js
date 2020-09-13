@@ -5,6 +5,7 @@ import towLayout from '@/views/layout/tow';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'
 import store from '@/store/store.js';
+import {XLSX}  from 'xlsx';
 
 Vue.use(Router)
 
@@ -65,14 +66,14 @@ export const urlRouters = [
         path: '/goods',
         component: layout,
         redirect: '/goods/sale',
-        meta: {title:'商品管理'},
+        meta: {title:'商城管理'},
         children: [
             {
                 path: 'sale',
                 component: towLayout,
-                meta:{title:'发布商品'},
+                meta:{title:'商品管理'},
                 children: [
-                    {path:'',name:'sale',component:()=>import('@/views/goods/sale/index'),meta:{title:'发布商品',no:false}},
+                    {path:'',name:'sale',component:()=>import('@/views/goods/sale/index'),meta:{title:'商品管理',no:false}},
                     {path:'add',name:'add',component:()=>import('@/views/goods/sale/edit'),meta:{title:'新增'}},
                     {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/sale/edit'),meta:{title:'编辑'}},
                 ]
