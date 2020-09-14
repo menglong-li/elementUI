@@ -15,6 +15,13 @@ import 'quill/dist/quill.bubble.css'
 Vue.use(VueQuillEditor);
 /**End:editor */
 
+/*filter */
+import * as filters from './plugins/filters';
+Object.keys(filters).forEach(key => {
+    Vue.filter(key, filters[key])
+});
+/*filter */
+
 if (process.env.VUE_APP_Mock == true) {    // 判断是否为mock模式
   require('../mock/mock.js');
 }
