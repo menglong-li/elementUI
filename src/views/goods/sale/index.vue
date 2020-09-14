@@ -7,7 +7,7 @@
             <el-col :span="3">
                 <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
             </el-col>
-            <el-col :span="2" :offset="13">
+            <el-col :span="2" :offset="12">
                 <router-link to="/goods/sale/add">
                     <el-button type="success">新增</el-button>
                 </router-link>
@@ -18,22 +18,32 @@
         <el-table :data="data" border stripe style="width: 100%" @selection-change="checkChange">
             <el-table-column type="selection" width="40">
             </el-table-column>
-            <el-table-column prop="id" label="ID" width="80">
+            <el-table-column prop="id" label="ID" width="60">
             </el-table-column>
             <el-table-column prop="title" label="名称">
             </el-table-column>
-            <el-table-column prop="isSale" label="状态">
+            <el-table-column prop="photo" label="图片" width="100">
+                <template  slot-scope="scope">
+                    <img :src="scope.row.photo" style="vertical-align: middle;" width="80" height="80" alt="">
+                </template>
+            </el-table-column>
+            <el-table-column prop="price" label="售价" width="60">
+            </el-table-column>
+            <el-table-column prop="inventory" label="库存" width="60">
             </el-table-column>
             <el-table-column prop="times" label="创建时间">
+                <template  slot-scope="scope">
+                    {{ scope.row.times | dateFormat }}
+                </template>
             </el-table-column>
             <el-table-column prop="sort" label="序号" width="60">
             </el-table-column>
-            <el-table-column fixed="right" label="操作" width="100">
+            <el-table-column fixed="right" label="操作" width="210">
                 <template slot-scope="scope">
-                    <router-link :to="'/setting/admin/edit/'+scope.row.id">
-                        <el-button type="text" size="small">编辑</el-button>
-                    </router-link>
-                    <el-button @click="Delete(scope.$index,scope.row)" type="text" size="small">删除</el-button>
+                    <el-button @click="Delete(scope.$index,scope.row)" type="primary" size="mini">下架</el-button>
+                    <!-- <router-link :to=""> -->
+                    <el-button @click="Edit(scope.row.id)" size="mini">编辑</el-button>
+                    <el-button @click="Delete(scope.$index,scope.row)" type="danger" size="mini">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -96,6 +106,9 @@
                         this.data.splice(index, 1);
                     })
                 }
+            },
+            Edit(id) {
+                this.$router.push('/setting/admin/edit/'+id);
             },
             checkChange(val) {
                 this.checkArray = val;

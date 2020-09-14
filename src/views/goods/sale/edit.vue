@@ -1,6 +1,6 @@
 <template>
     <el-form :model="rule" :rules="rules" ref="forms" class="demo-ruleForm" label-width="100px">
-        <el-form-item label="产品分类">
+        <el-form-item prop="tid" label="产品分类">
             <el-select v-model="rule.tid" placeholder="请选择分类">
                 <el-option v-for="item in options"
                 :key="item.value"
@@ -26,7 +26,7 @@
             :inactive-value="0"
             ></el-switch>
         </el-form-item>
-        <el-form-item label="商品图片">
+        <el-form-item label="商品图片" prop="photo">
             <Resource @imglist="setImgArray"></Resource>
         </el-form-item>
         <el-form-item label="内容" prop="contents">
@@ -60,16 +60,18 @@ import Resource from '@/components/Resource';
                     tid: '',
                     title: '',
                     price: null,
-                    inventory: null,
+                    inventory: 0,
                     sort: 0,
                     isSale: 1,
                     contents: '',
                     photo: ''
                 },
                 rules: {
+                    tid: { required: true, message: '请选择分类' },
                     title: { required: true, message: '请输入标题' },
                     price: {required: true, message: '请输入单价'},
                     inventory: {required: true, message: '请输入库存量'},
+                    photo: {required: true, message: '请上传商品图片',trigger:["blur","change"]},
                     sort: {required: true, message: '请输入序号'},
                 },
             }
@@ -149,16 +151,19 @@ import Resource from '@/components/Resource';
             },
             setImgArray(data) {
                 //接收图片选择子组件反回用户选中的图片数组信息
-                this.rule.photo = data.toString();
+                this.rule.photo = JSON.stringify(data);
+                this.$refs['forms'].validate(()=> {
+                    
+                });
             },
             onEditorReady(editor) { },// 准备编辑器
             onEditorBlur(){}, // 失去焦点事件
             onEditorFocus(){}, // 获得焦点事件
             onEditorChange(){}, // 内容改变事件
             saveHtml:function(event){
-            alert(this.content);
+                // alert(this.content);
             }
-            },
+        },
         components: {Resource}
     }
 </script>
