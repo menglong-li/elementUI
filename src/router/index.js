@@ -71,9 +71,9 @@ export const urlRouters = [
             {
                 path: 'sale',
                 component: towLayout,
-                meta:{title:'商品管理'},
+                meta:{title:'在售商品'},
                 children: [
-                    {path:'',name:'sale',component:()=>import('@/views/goods/sale/index'),meta:{title:'商品管理',no:false}},
+                    {path:'',name:'sale',component:()=>import('@/views/goods/sale/index'),meta:{title:'在售商品',no:false}},
                     {path:'add',name:'add',component:()=>import('@/views/goods/sale/edit'),meta:{title:'新增'}},
                     {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/sale/edit'),meta:{title:'编辑'}},
                 ]
