@@ -4,7 +4,7 @@
                 <el-col :span="9">
                     <el-input placeholder="名称" v-model="searchText"></el-input>
                 </el-col>
-                <el-col :span="2" :offset="13">
+                <el-col :span="2" :offset="12">
                     <router-link :to="'/goods/type/add'">
                         <el-button type="success">新增</el-button>
                     </router-link>

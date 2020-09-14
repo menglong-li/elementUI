@@ -7,7 +7,7 @@
             <el-col :span="3">
                 <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
             </el-col>
-            <el-col :span="2" :offset="13">
+            <el-col :span="2" :offset="12">
                 <router-link :to="'/setting/admin/add'">
                     <el-button type="success">新增</el-button>
                 </router-link>
