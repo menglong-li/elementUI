@@ -55,7 +55,7 @@
                 height:380,//面板高度
                 spannum: 4,//imgresource下显示图片列数
                 fileList: [], //上传成功的图片数组
-                selImgList: this.value,
+                selImgList: [],
                 uploadUrl: process.env.VUE_APP_API + '/api/uploadimg',//图片上传api
                 token: {
                     Authorization: this.$store.state.token
@@ -72,8 +72,12 @@
         computed: {
             //加个监听props，用于父组件向子组件props默认值
             watchPhoto() {
-                this.$emit('input',this.selImgList);//向父级发射赋值变化
-                return this.selImgList = eval(this.value);
+                if(Array.isArray(this.value)) {
+                    return this.selImgList = this.value;
+                }else {
+                    //当修改时，第一次赋值为数据库取出的字符串形式数组，在此转换一下类型
+                    this.$emit('input',JSON.parse(this.value));
+                }
             },
         },
         mounted() {
@@ -121,10 +125,12 @@
             selImg(i) {
                 //选中图片
                 this.selImgList.push(this.fileList[i]);
+                this.$emit('input',this.selImgList);//向父级发射赋值变化
             },
             //#region 删除图片
             imgdelete(i) {
                 this.selImgList.splice(i,1);
+                this.$emit('input',this.selImgList);//向父级发射赋值变化
             }
             //#endregion
         },

@@ -122,7 +122,6 @@ import Resource from '@/components/Resource';
             submit() {
                 this.$refs['forms'].validate(valid => {
                     if(valid) {
-                        this.rule.photo = JSON.stringify(this.rule.photo);
                         if(this.rule.id == 0) {
                             this.$http.post('/api/product/add',this.rule).then(() => {
                                 this.$message({
