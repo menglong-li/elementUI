@@ -88,7 +88,14 @@ export const urlRouters = [
                     {path:'edit/:id',name:'edit',component:()=>import('@/views/goods/type/edit'),meta:{title:'编辑'}}
                 ]
             },
-            
+            {
+                path: 'down',
+                component: towLayout,
+                meta:{title:'下架商品'},
+                children: [
+                    {path:'',name:'down',component:()=>import('@/views/goods/down/index'),meta:{title:'下架商品',no:false}},
+                ]
+            },
         ]
     },
     { path: '*', redirect: '/login' }
