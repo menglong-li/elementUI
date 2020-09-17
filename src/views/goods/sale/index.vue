@@ -102,7 +102,8 @@
                 //下架
                 if(confirm('确认要下架该商品吗？')) {
                     let ID = this.data[index].id;
-                    this.$http.put('/api/product/down',{id:ID}).then(() => {
+                    let title = this.data[index].title;
+                    this.$http.put('/api/product/down',{id:ID,title:title}).then(() => {
                         this.data.splice(index, 1);
                     })
                 }

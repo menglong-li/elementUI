@@ -97,7 +97,8 @@
                 //下架
                 if(confirm('确认要重新上架该商品吗？')) {
                     let ID = this.data[index].id;
-                    this.$http.put('/api/product/up',{id:ID}).then(() => {
+                    let title = this.data[index].title;
+                    this.$http.put('/api/product/up',{id:ID,title:title}).then(() => {
                         this.data.splice(index, 1);
                     })
                 }
