@@ -31,7 +31,7 @@
               <span>商城管理</span>
             </template>
             <el-menu-item index="/goods/sale/">在售商品</el-menu-item>
-            <el-menu-item index="/goods/inventory">下架商品</el-menu-item>
+            <el-menu-item index="/goods/down">下架商品</el-menu-item>
             <el-menu-item index="/goods/type">商品类别</el-menu-item>
           </el-submenu>
           <el-submenu index="5">
