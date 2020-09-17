@@ -22,7 +22,7 @@
             </el-table-column>
             <el-table-column prop="title" label="名称">
             </el-table-column>
-            <el-table-column prop="photo" label="图片" width="100">
+            <el-table-column prop="photo" label="图片" width="100" :show-overflow-tooltip='false'>
                 <template  slot-scope="scope">
                     <img :src="scope.row.photo" style="vertical-align: middle;" width="80" height="80" alt="">
                 </template>
@@ -40,10 +40,10 @@
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="210">
                 <template slot-scope="scope">
-                    <el-button @click="Delete(scope.$index,scope.row)" type="primary" size="mini">下架</el-button>
+                    <el-button @click="Down(scope.$index)" type="primary" size="mini">下架</el-button>
                     <!-- <router-link :to=""> -->
                     <el-button @click="Edit(scope.row.id)" size="mini">编辑</el-button>
-                    <el-button @click="Delete(scope.$index,scope.row)" type="danger" size="mini">删除</el-button>
+                    <el-button @click="Delete(scope.$index,scope.row.title)" type="danger" size="mini">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -91,24 +91,33 @@
                     size: this.pagin.size,
                 }
                 if(this.searchOn == true) {
-                    params.username = this.searchText;
+                    params.title = this.searchText;
                 }
                 this.$http.get('/api/product/getlist', {params: params}).then(results => {
                     this.data = results['data']['list'];
                     this.pagin.total = results['data']['total'];
                 });
             },
-            Delete(index) {
+            Down(index) {
+                //下架
+                if(confirm('确认要下架该商品吗？')) {
+                    let ID = this.data[index].id;
+                    this.$http.put('/api/product/down',{id:ID}).then(() => {
+                        this.data.splice(index, 1);
+                    })
+                }
+            },
+            Delete(index,title) {
                 //单删
                 if(confirm('确认要删除吗？')) {
                     let ID = this.data[index].id;
-                    this.$http.delete('/api/admin/delete',{params:{id:ID}}).then(() => {
+                    this.$http.delete('/api/product/delete',{params:{id:ID,title:title}}).then(() => {
                         this.data.splice(index, 1);
                     })
                 }
             },
             Edit(id) {
-                this.$router.push('/setting/admin/edit/'+id);
+                this.$router.push('/goods/sale/edit/'+id);
             },
             checkChange(val) {
                 this.checkArray = val;
@@ -116,14 +125,16 @@
             deleteAll() {
                 if(confirm('确认要删除吗？')) {
                     let ids = [];
+                    let titles = [];
                     for(let x of this.checkArray) {
                         ids.push(x.id);
+                        titles.push(x.title);
                     }
                     if(ids.length == 0) {
                         return false;
                     }
                     if(this.checkArray.length > 0) {
-                        this.$http.delete('/api/admin/delete',{params:{id:ids.toString()}}).then(() => {
+                        this.$http.delete('/api/product/delete',{params:{id:ids.toString(),title:titles.toString()}}).then(() => {
                             this.getList();
                         })
                     }
