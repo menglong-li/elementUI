@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import axios from 'axios';
 import router from '../router';
 import store from '@/store/store.js';
@@ -39,19 +40,28 @@ instance.interceptors.response.use(response => {
     if(error.response && error.response.status == 400) {
         //语义有误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求
         //请求参数有误。
-        alert(error.response.data);
+        Vue.prototype.$message({
+            message: error.response.data,
+            type: 'error'
+        })
         endLoading();
     }
     if(error.response && error.response.status == 401) {
         //未经授权的
         //token验证失败专用
-        alert(error.response.data);
+        Vue.prototype.$message({
+            message: error.response.data,
+            type: 'error'
+        })
         endLoading();
         store.commit('loginOut');
     }
     if(error.response && error.response.status == 403) {
         //服务器已经理解请求，但是拒绝执行它
-        alert(error.response.data);
+        Vue.prototype.$message({
+            message: error.response.data,
+            type: 'error'
+        })
         endLoading();
     }
     if(error.response && error.response.status == 404) {
