@@ -27,7 +27,7 @@
             ></el-switch>
         </el-form-item>
         <el-form-item label="商品图片" prop="photo">
-            <Resource @imglist="setImgArray"></Resource>
+            <Resource v-model="rule.photo"></Resource>
         </el-form-item>
         <el-form-item label="内容" prop="contents">
             <quill-editor class="ql-editor-class"
@@ -64,7 +64,7 @@ import Resource from '@/components/Resource';
                     sort: 0,
                     isSale: 1,
                     contents: '',
-                    photo: ''
+                    photo: []
                 },
                 rules: {
                     tid: { required: true, message: '请选择分类' },
@@ -81,12 +81,11 @@ import Resource from '@/components/Resource';
                 return this.$refs.myQuillEditor.quill;
             },
         },
-        created() {
+        async created() {
             this.getType();
             if(this.$route.params.id) {
-                this.$http.get('/api/admin/getview/'+this.$route.params.id).then(data => {
+                await this.$http.get('/api/product/getview/'+this.$route.params.id).then(data => {
                     this.rule = data['data'];
-                    this.rule.passvalid = this.rule.password;
                 }).catch(() => {
                     this.$router.go(-1);
                 });
@@ -123,13 +122,14 @@ import Resource from '@/components/Resource';
             submit() {
                 this.$refs['forms'].validate(valid => {
                     if(valid) {
+                        this.rule.photo = JSON.stringify(this.rule.photo);
                         if(this.rule.id == 0) {
                             this.$http.post('/api/product/add',this.rule).then(() => {
                                 this.$message({
                                     message: '操作成功',
                                     type: 'success'
                                 });
-                                this.$router.push('/goods/sale');
+                                this.$router.go(-1);
                             })
                         }else {
                             this.$http.put('/api/product/edit',this.rule).then(() => {
@@ -137,9 +137,12 @@ import Resource from '@/components/Resource';
                                     message: '操作成功',
                                     type: 'success'
                                 });
-                                this.$router.push('/goods/sale');
-                            }).catch(()=> {
-                                return false;
+                                this.$router.go(-1);
+                            }).catch((e)=> {
+                                this.$message({
+                                    message: e.message,
+                                    type: 'error'
+                                });
                             })
                         }
                         
@@ -148,13 +151,6 @@ import Resource from '@/components/Resource';
             },
             reset() {
                 this.$refs['forms'].resetFields();
-            },
-            setImgArray(data) {
-                //接收图片选择子组件反回用户选中的图片数组信息
-                this.rule.photo = JSON.stringify(data);
-                this.$refs['forms'].validate(()=> {
-                    
-                });
             },
             onEditorReady(editor) { },// 准备编辑器
             onEditorBlur(){}, // 失去焦点事件

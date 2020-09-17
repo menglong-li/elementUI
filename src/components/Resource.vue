@@ -2,7 +2,7 @@
     <div id="ml-Resource">
         <!--图片组-->
         <ul class="ml-imglist">
-            <li v-for="(item,index) in selImgList" :key="index">
+            <li v-for="(item,index) in watchPhoto" :key="index">
                 <img :src="item" alt="">
                 <div class="ml-imglist-button">
                     <i class="el-icon-delete" @click="imgdelete(index)"></i>
@@ -33,11 +33,13 @@
                     <img width="100%" :src="dialogImageUrl" alt="">
                 </el-dialog>
             </div>
+            <!--图片资源管理器-->
             <div class="imgresource">
                 <div class="item" v-for="(item,index) in fileList" :key="index">
                     <div class="zfx"><img :src='item' @click="selImg(index)" width="100%" alt=""></div>
                 </div>
             </div>
+            <!--End:图片资源管理器-->
         </div>
     </div>
 </template>
@@ -45,6 +47,7 @@
 <script>
     export default {
         name: 'Resource',
+        props:['value'],
         data() {
             return {
                 load: false,//面板开关
@@ -52,7 +55,7 @@
                 height:380,//面板高度
                 spannum: 4,//imgresource下显示图片列数
                 fileList: [], //上传成功的图片数组
-                selImgList: [],//选中并准备要上传的图片数组
+                selImgList: this.value,
                 uploadUrl: process.env.VUE_APP_API + '/api/uploadimg',//图片上传api
                 token: {
                     Authorization: this.$store.state.token
@@ -66,6 +69,13 @@
                 this.fileList = result.data;
             });
         },
+        computed: {
+            //加个监听props，用于父组件向子组件props默认值
+            watchPhoto() {
+                this.$emit('input',this.selImgList);//向父级发射赋值变化
+                return this.selImgList = eval(this.value);
+            },
+        },
         mounted() {
             let _this = this;
             //#region 点击任意位置关闭图片空间
@@ -75,8 +85,6 @@
                 }
             };
             //#endregion
-        },
-        updated() {
         },
         methods: {
             onOpen() {
@@ -113,8 +121,6 @@
             selImg(i) {
                 //选中图片
                 this.selImgList.push(this.fileList[i]);
-                //向父组件传送用户选择的图片信息
-                this.$emit('imglist',this.selImgList);
             },
             //#region 删除图片
             imgdelete(i) {
